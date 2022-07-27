@@ -11,11 +11,9 @@ app.use(express.static('../Frontend'))
 // Set up Socket IO 
 io.on('connection', function(socket){
   ID = socket.id;
-  console.log('client id - '+ socket.id);   
 
   // When socket is disconnected
   socket.on('disconnect', function () {
-     console.log('A user disconnected', ID);
      socket.broadcast.emit("user disconnected", ID);
   });
 
@@ -25,7 +23,6 @@ io.on('connection', function(socket){
   });
 
   socket.on('mouse down', function ({x,y,mouseEmojiStr}) {
-    console.log("down");
     socket.broadcast.emit("other mouse down", {id: ID, x: x, y: y, newEmojiStr: mouseEmojiStr, })
   });
 
