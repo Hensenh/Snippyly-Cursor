@@ -2,13 +2,14 @@ const duration = 2; //Seconds
 const movementY = 50 //Pixel
 const movementX = 20;
 const magnitudeX = 5;
-const maxRandomStartOffset = 20;
+const maxRandomStartOffsetX = 20;
+const emojiInitialOffsetY = 15;
 
 class Emoji {
     constructor(emojiStr, startX, startY) {
         // Use random generator to make spawn point differ slightly
         this.startX = startX  + this.getRandomStartOffset();
-        this.startY = startY - 20;
+        this.startY = startY - emojiInitialOffsetY;
         this.emojiStr = emojiStr;
         this.startTime = null;
     }
@@ -43,7 +44,7 @@ class Emoji {
     }
 
     getRandomStartOffset() {
-        return Math.floor(Math.random() * maxRandomStartOffset*2) - maxRandomStartOffset;
+        return Math.floor(Math.random() * maxRandomStartOffsetX*2) - maxRandomStartOffsetX;
     }
 
     static getRandomEmojiString() {

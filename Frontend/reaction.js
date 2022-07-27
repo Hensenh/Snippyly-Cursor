@@ -1,5 +1,5 @@
 const emojiSpawnRate = 100; // 150 ms
-
+const movementUpdateRate = 40;
 var socket = io();
 var lastMove = 0;
 var idToCursorMap = {};
@@ -13,8 +13,9 @@ var mouseEmojiStr = null;
 document.addEventListener('mousemove', function(e){
     mousePositionX = e.pageX;
     mousePositionY = e.pageY;
-    // Only update position every 40 ms
-    if(Date.now() - lastMove > 40) {
+    console.log(Date.now());
+    // Limit number of update to server
+    if(Date.now() - lastMove > movementUpdateRate) {
         lastMove = Date.now();
         socket.emit('mouse position', {x: mousePositionX, y: mousePositionY});
     } 
