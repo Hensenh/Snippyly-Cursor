@@ -5,13 +5,15 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+// Serve assets from Frontend folder to root of url
 app.use(express.static('../Frontend'))
 
+// Set up Socket IO 
 io.on('connection', function(socket){
   ID = socket.id;
   console.log('client id - '+ socket.id);   
 
-  //Whenever someone disconnects this piece of code executes
+  // When socket is disconnected
   socket.on('disconnect', function () {
      console.log('A user disconnected', ID);
      socket.broadcast.emit("user disconnected", ID);
@@ -22,9 +24,9 @@ io.on('connection', function(socket){
     socket.broadcast.emit("other mouse position", mousePositionObject)
   });
 
-  socket.on('mouse down', function (mouseEmojiStr) {
+  socket.on('mouse down', function ({x,y,mouseEmojiStr}) {
     console.log("down");
-    socket.broadcast.emit("other mouse down", {id: ID, newEmojiStr: mouseEmojiStr})
+    socket.broadcast.emit("other mouse down", {id: ID, x: x, y: y, newEmojiStr: mouseEmojiStr, })
   });
 
   socket.on('mouse up', function () {

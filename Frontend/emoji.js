@@ -4,28 +4,28 @@ const movementX = 20;
 const magnitudeX = 5;
 const maxRandomStartOffset = 20;
 
-const emojiRange = [128513, 128591];
-
 class Emoji {
     constructor(emojiStr, startX, startY) {
-        const randomOffset = this.getRandomStartOffset();
+        // Use random generator to make spawn point differ slightly
         this.startX = startX  + this.getRandomStartOffset();
-        this.startY = startY;
+        this.startY = startY - 20;
         this.emojiStr = emojiStr;
         this.startTime = null;
     }
 
+    // Create's emoji animation and starts animation
     createAndStartAnimation() {
         this.element = document.createElement("p");
         this.element.innerHTML = this.emojiStr;
+        this.element.style.userSelect = 'none';
         this.element.style.position = 'absolute'
         this.element.style.top = this.startY;
         this.element.style.left = this.startX;
-        this.element.style.userSelect = 'none';
         document.body.append(this.element);
         requestAnimationFrame(this.step.bind(this))
     }
 
+    // Updates position of animation based on time since start
     step(timestamp) {
         if(this.startTime === null) this.startTime = timestamp;
         const progress = (timestamp - this.startTime) / duration / 1000; // percent
@@ -35,12 +35,11 @@ class Emoji {
         this.element.style.left = x + 'px';
         this.element.style.top = y + 'px';
         this.element.style.opacity = 1 - progress;
-        if(progress >= 1){
+        if (progress >= 1) {
             this.element.remove();
         } else {
             requestAnimationFrame(this.step.bind(this));
         }
-
     }
 
     getRandomStartOffset() {
