@@ -13,7 +13,6 @@ var mouseEmojiStr = null;
 document.addEventListener('mousemove', function(e){
     mousePositionX = e.pageX;
     mousePositionY = e.pageY;
-    console.log(Date.now());
     // Limit number of update to server
     if(Date.now() - lastMove > movementUpdateRate) {
         lastMove = Date.now();
